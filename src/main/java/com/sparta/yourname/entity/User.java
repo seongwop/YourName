@@ -8,19 +8,20 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity(name = "users")
-public class Users {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     // nullable: null 허용 여부
     // unique: 중복 허용 여부 (false 일때 중복 허용)
     @Column(nullable = false, unique = true)
-    private String userid;
+    private String userId;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -33,26 +34,26 @@ public class Users {
     private String mbti;
 
     @Column(nullable = false)
-    private String githubUrl;
+    private String githuburl;
 
     @Column(nullable = false)
-    private String blogUrl;
+    private String blogurl;
 
 
 
 
 
 
-    public Users(UserRequestDto requests) {
-        this.userid = requests.getUserid();
+    public User(UserRequestDto requests) {
+        this.userId = requests.getUserid();
         this.password = requests.getPassword();
         this.email = requests.getEmail();
         this.username = requests.getUsername();
 
         this.specialty = requests.getSpecialty();
         this.mbti = requests.getMbti();
-        this.githubUrl = requests.getGithubUrl();
-        this.blogUrl = requests.getBlogUrl();
+        this.githuburl = requests.getGithubUrl();
+        this.blogurl = requests.getBlogUrl();
 
     }
 }
