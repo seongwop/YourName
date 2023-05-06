@@ -49,7 +49,6 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
                 // 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
-
                 // JWT 인증/인가를 사용하기 위한 설정
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 

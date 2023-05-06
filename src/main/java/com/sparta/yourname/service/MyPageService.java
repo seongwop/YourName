@@ -25,8 +25,8 @@ public class MyPageService {
         user.setEmail(updatedInfo.getEmail());
         user.setSpecialty(updatedInfo.getSpecialty());
         user.setMbti(updatedInfo.getMbti());
-        user.setGithuburl(updatedInfo.getGithubUrl());
-        user.setBlogurl(updatedInfo.getBlogUrl());
+        user.setGithubUrl(updatedInfo.getGithubUrl());
+        user.setBlogUrl(updatedInfo.getBlogUrl());
 
         // 업데이트한 정보를 저장
         User updatedUser = userRepository.save(user);

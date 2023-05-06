@@ -36,10 +36,10 @@ public class User {
     private String mbti;
 
     @Column(nullable = false)
-    private String githuburl;
+    private String githubUrl;
 
     @Column(nullable = false)
-    private String blogurl;
+    private String blogUrl;
 
 
 
@@ -54,8 +54,8 @@ public class User {
 
         this.specialty = requests.getSpecialty();
         this.mbti = requests.getMbti();
-        this.githuburl = requests.getGithubUrl();
-        this.blogurl = requests.getBlogUrl();
+        this.githubUrl = requests.getGithubUrl();
+        this.blogUrl = requests.getBlogUrl();
 
     }
 
@@ -68,8 +68,8 @@ public class User {
                 username,
                 specialty,
                 mbti,
-                githuburl,
-                blogurl
+                githubUrl,
+                blogUrl
         );
     }
 }
