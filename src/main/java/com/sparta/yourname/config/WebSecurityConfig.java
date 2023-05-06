@@ -59,9 +59,6 @@ public class WebSecurityConfig {
         // 401 Error 처리, Authorization 즉, 인증과정에서 실패할 시 처리
         http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
 
-
-
-
         return http.build();
     }
 

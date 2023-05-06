@@ -8,7 +8,6 @@ public class UserRequestDto {
     @Getter
     @NoArgsConstructor
     public static class signUp {
-    
       private String userId;
       private String password;
       private String email;
@@ -17,17 +16,12 @@ public class UserRequestDto {
       private String mbti;
       private String githubUrl;
       private String blogUrl;
-
     }
 
     @Getter
     @NoArgsConstructor
     public static class login {
-        private String username;
+        private String userId;
         private String password;
     }
-
-
-
-
 }
