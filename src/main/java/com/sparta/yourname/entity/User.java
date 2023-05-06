@@ -1,11 +1,13 @@
 package com.sparta.yourname.entity;
 
 import com.sparta.yourname.dto.UserRequestDto;
+import com.sparta.yourname.dto.UserResponseDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
+@Getter@Setter
 @NoArgsConstructor
 @Entity(name = "users")
 public class User {
@@ -45,7 +47,7 @@ public class User {
 
 
     public User(UserRequestDto requests) {
-        this.userId = requests.getUserid();
+        this.userId = requests.getUserId();
         this.password = requests.getPassword();
         this.email = requests.getEmail();
         this.username = requests.getUsername();
@@ -55,5 +57,19 @@ public class User {
         this.githuburl = requests.getGithubUrl();
         this.blogurl = requests.getBlogUrl();
 
+    }
+
+
+    public UserResponseDto toUserResponseDto() {
+        return new UserResponseDto(
+                id,
+                userId,
+                email,
+                username,
+                specialty,
+                mbti,
+                githuburl,
+                blogurl
+        );
     }
 }
