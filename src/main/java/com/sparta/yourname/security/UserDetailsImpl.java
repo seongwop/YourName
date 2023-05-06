@@ -1,7 +1,7 @@
 package com.sparta.yourname.security;
 
-import com.sparta.myselectshop.entity.User;
-import com.sparta.myselectshop.entity.UserRoleEnum;
+
+import com.sparta.yourname.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,9 +14,9 @@ public class UserDetailsImpl implements UserDetails {
     private final User user;
     private final String username;
 
-    public UserDetailsImpl(User user, String username) {
+    public UserDetailsImpl(User user, String userId) {
         this.user = user;
-        this.username = username;
+        this.username = userId;
     }
 
     public User getUser() {
@@ -25,8 +25,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        UserRoleEnum role = user.getRole();
-        String authority = role.getAuthority();
+        String authority = "ROLE_USER";
 
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
         Collection<GrantedAuthority> authorities = new ArrayList<>();

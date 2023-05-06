@@ -1,8 +1,11 @@
 package com.sparta.yourname.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.sparta.yourname.exception.SecurityExceptionDto;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,10 +14,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
@@ -22,7 +21,6 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -39,11 +37,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 // Refresh 토큰 유효
                 if (Boolean.TRUE.equals(jwtUtil.validateRefreshToken(refreshToken))){
                     String username = jwtUtil.getUserInfoFromToken(refreshToken);
-                    User user = userRepository.findByUsername(username).orElseThrow(
-                            () -> new NullPointerException(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                    );
                     //new accessToken 발급
-                    String newAccessToken = jwtUtil.createToken(username, user.getRole(), JwtUtil.ACCESS_TOKEN);
+                    String newAccessToken = jwtUtil.createToken(username, JwtUtil.ACCESS_TOKEN);
                     //헤더에 새로운 Access 토큰 넣기
                     response.setHeader(JwtUtil.ACCESS_TOKEN,newAccessToken);
                     //Security context에 인증 정보 저장

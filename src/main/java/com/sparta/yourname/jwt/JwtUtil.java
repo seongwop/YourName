@@ -1,12 +1,12 @@
 package com.sparta.yourname.jwt;
 
 
-import com.sparta.board.entity.User;
-import com.sparta.board.entity.UserRoleEnum;
-import com.sparta.board.repository.UserRepository;
+
 import com.sparta.yourname.dto.TokenDto;
 import com.sparta.yourname.entity.RefreshToken;
+import com.sparta.yourname.entity.User;
 import com.sparta.yourname.repository.RefreshTokenRepository;
+import com.sparta.yourname.repository.UserRepository;
 import com.sparta.yourname.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -33,14 +33,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class JwtUtil {
 
-    private static final String AUTHORIZATION_KEY = "auth";
+//    private static final String AUTHORIZATION_KEY = "auth";
     private static final String BEARER_PREFIX = "Bearer ";
 
     public static final String ACCESS_TOKEN = "Access_Token";
     public static final String REFRESH_TOKEN = "Refresh_Token";
 
-    private static final long ACCESS_TOKEN_TIME = 1 * 60 * 1000L;   //AccessToken Time 1 min
-    private static final long REFRESH_TOKEN_TIME = 60 * 60 *100L; //RefreshToken Time 1 hr
+    private static final long ACCESS_TOKEN_TIME = 60 * 60 * 1000L;   //AccessToken Time 1 hr
+    private static final long REFRESH_TOKEN_TIME = 24 * 60 * 60 *100L; //RefreshToken Time 1 day
     private final UserDetailsServiceImpl userDetailsService;
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -74,19 +74,19 @@ public class JwtUtil {
         }
     }
 
-    public TokenDto createAllToken(String username, UserRoleEnum role){
-        return new TokenDto(createToken(username,role,ACCESS_TOKEN), createToken(username,role,REFRESH_TOKEN));
+    public TokenDto createAllToken(String userId){
+        return new TokenDto(createToken(userId,ACCESS_TOKEN), createToken(userId,REFRESH_TOKEN));
     }
 
     // 토큰 생성
-    public String createToken(String username, UserRoleEnum role, String token) {
+    public String createToken(String userId,  String token) {
         Date date = new Date();
         long time = token.equals(ACCESS_TOKEN) ? ACCESS_TOKEN_TIME : REFRESH_TOKEN_TIME;
 
         return BEARER_PREFIX +
                 Jwts.builder()
-                        .setSubject(username)
-                        .claim(AUTHORIZATION_KEY, role)
+                        .setSubject(userId)
+//                        .claim(AUTHORIZATION_KEY, role)
                         .setExpiration(new Date(date.getTime() + time))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
@@ -117,7 +117,7 @@ public class JwtUtil {
         if(!validateToken(token)) return false;
 
         //사용자 찾기
-        User user = userRepository.findByUsername(getUserInfoFromToken(token)).orElseThrow(
+        User user = userRepository.findByUserId(getUserInfoFromToken(token)).orElseThrow(
                 () -> new NullPointerException(HttpStatus.BAD_REQUEST.getReasonPhrase())
         );
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUser(user);
