@@ -1,19 +1,18 @@
 package com.sparta.yourname.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@NoArgsConstructor
 public class UserRequestDto {
-    private String userid;
+    private String userId;
     private String password;
     private String email;
     private String username;
     private String specialty;
-
     private String mbti;
     private String githubUrl;
     private String blogUrl;
-
 }

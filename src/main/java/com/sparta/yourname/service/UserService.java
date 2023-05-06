@@ -16,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     @Transactional
     public UserResponseDto signup(UserRequestDto userRequestDto) {
-        String userid = userRequestDto.getUserid();
+        String userid = userRequestDto.getUserId();
         String password =  userRequestDto.getPassword();//passwordEncoder.encode(signupRequestDto.getPassword());
 
         // 회원 중복 확인
