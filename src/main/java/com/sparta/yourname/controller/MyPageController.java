@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-
+/*GIT TEST*/
 public class MyPageController {
 
     private final MyPageService myPageService;
