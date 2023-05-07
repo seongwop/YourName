@@ -3,7 +3,7 @@ package com.sparta.yourname.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
+/* 에러 수정 */
 public class UserRequestDto {
     @Getter
     @NoArgsConstructor
