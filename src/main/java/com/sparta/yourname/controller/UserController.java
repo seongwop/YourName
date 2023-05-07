@@ -34,7 +34,8 @@ public class UserController {
     }
     @PostMapping("/userdelete")
     public UserResponseDto userDelete(@RequestBody UserRequestDto.info requestDto) {
+        System.out.println("깃 테스트");
         return userService.delete(requestDto);
     }
-    
+
 }
