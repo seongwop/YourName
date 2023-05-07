@@ -12,17 +12,17 @@ import lombok.Setter;
 
 @Entity(name = "users")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor//(access = AccessLevel.PROTECTED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(unique = true) // unique: 중복 허용 여부 (false 일때 중복 허용)
+    //@NotBlank
+    @Column(nullable = false,unique = true) // unique: 중복 허용 여부 (false 일때 중복 허용)
     private String userId;
 
-    @NotBlank
+    @Column(nullable = false)//@NotBlank
     private String password;
 
     @Column(nullable = false)
@@ -33,11 +33,11 @@ public class User {
 
     @Column(nullable = false)
     private String mbti;
-
+    @Column(nullable = false)
     private String email;
-
+    @Column(nullable = false)
     private String githuburl;
-
+    @Column(nullable = false)
     private String blogurl;
 
     public User(UserRequestDto.info requestDto) {
@@ -50,6 +50,8 @@ public class User {
         this.githuburl = requestDto.getGithubUrl();
         this.blogurl = requestDto.getBlogUrl();
     }
+
+
     public void Update(UserRequestDto.info requestDto) {
         this.userId = requestDto.getUserId();
         this.password = requestDto.getPassword();

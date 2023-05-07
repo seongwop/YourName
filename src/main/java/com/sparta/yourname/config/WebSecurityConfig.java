@@ -46,6 +46,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests()
                 //회원가입, 로그인페이지
+
                 .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
                 // 어떤 요청이든 '인증'
                 .anyRequest().authenticated()

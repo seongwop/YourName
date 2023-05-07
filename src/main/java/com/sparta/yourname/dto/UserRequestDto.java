@@ -17,6 +17,10 @@ public class UserRequestDto {
       private String mbti;
       private String githubUrl;
       private String blogUrl;
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 
     @Getter

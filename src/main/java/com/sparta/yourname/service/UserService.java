@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sparta.yourname.dto.UserResponseDto;
 import java.util.Optional;
 
+import static com.sparta.yourname.util.ValidateUtil.isValidPassword;
+import static com.sparta.yourname.util.ValidateUtil.isValidUsername;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -26,7 +29,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
     @Transactional
-    public CommonResponseDto<?> login(UserRequestDto.login requestDto, HttpServletResponse response) {
+    public CommonResponseDto<?> login(UserRequestDto.login requestDto) {
         User user = userRepository.findByUserId(requestDto.getUserId()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
@@ -45,27 +48,56 @@ public class UserService {
             refreshTokenRepository.save(newToken);
         }
 
-        response.addHeader(JwtUtil.ACCESS_TOKEN, tokenDto.getAccessToken());
-        response.addHeader(JwtUtil.REFRESH_TOKEN, tokenDto.getRefreshToken());
+//        response.addHeader(JwtUtil.ACCESS_TOKEN, tokenDto.getAccessToken());
+//        response.addHeader(JwtUtil.REFRESH_TOKEN, tokenDto.getRefreshToken());
 
         return new CommonResponseDto<>("로그인 성공");
     }
 
     @Transactional
     public UserResponseDto signup(UserRequestDto.info userRequestDto) {
-        String userid = userRequestDto.getUserId();
-        String password =  userRequestDto.getPassword();//passwordEncoder.encode(signupRequestDto.getPassword());
 
+        String userId = userRequestDto.getUserId();
+        String password = userRequestDto.getPassword();
+        // username과 password의 유효성 검사
+        boolean isUsernameValid = isValidUsername(userId);
+        boolean isPasswordValid = isValidPassword(password);
+        if(isUsernameValid == false)
+            return null;
+        if(isPasswordValid == false)
+            return null;
+
+        // 유효성 검사 결과 출력
+        System.out.println("Username is valid: " + isUsernameValid);
+        System.out.println("Password is valid: " + isPasswordValid);
+        password = passwordEncoder.encode(password);
+        userRequestDto.setPassword(password);
         // 회원 중복 확인
-        Optional<User> found = userRepository.findByUserId(userid);
-        if (found.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+        try {
+            Optional<User> found = userRepository.findByUserId(userId);
+            if (found.isPresent()) {
+                throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+            }
+        } catch (Exception e) {
+            // 예외 처리
+            e.printStackTrace();
+            throw new RuntimeException("사용자 조회 중 오류가 발생했습니다.");
         }
-//
-        String email = userRequestDto.getEmail();
-        // 사용자 ROLE 확인
+
+
         User user = new User(userRequestDto);
         userRepository.save(user);
         return null;
+    }
+
+    @Transactional
+    public UserResponseDto delete(UserRequestDto.info userRequestDto) {
+
+        userRepository.findByUserId(userRequestDto.getUserId()).orElseThrow(
+                () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+        );
+        User user = userRepository.findByUserId(userRequestDto.getUserId()).orElseGet(User::new);
+        userRepository.delete(user);
+        return null;//new UserResponseDto( user);
     }
 }

@@ -18,19 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api")
+@RequestMapping("/api/auth")
 public class UserController {
 
     private final UserService userService;
 
     @PostMapping("/login")
-    public CommonResponseDto<?> login(@RequestBody UserRequestDto.login requestDto,
-                                      HttpServletResponse response) {
-        return userService.login(requestDto, response);
+    public CommonResponseDto<?> login(@RequestBody UserRequestDto.login requestDto) {
+        return userService.login(requestDto);
     }
 
     @PostMapping("/signup")
     public UserResponseDto signup(@RequestBody UserRequestDto.info requestDto) {
         return userService.signup(requestDto);
+    }
+    @PostMapping("/userdelete")
+    public UserResponseDto userDelete(@RequestBody UserRequestDto.info requestDto) {
+        return userService.delete(requestDto);
     }
 }
