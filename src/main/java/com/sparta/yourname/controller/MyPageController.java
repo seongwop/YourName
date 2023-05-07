@@ -24,7 +24,7 @@ public class MyPageController {
 
     //개인 정보 수정
     @PutMapping
-    public ResponseEntity<UserResponseDto> updatePersonalInformation(@RequestParam String userId, @RequestBody UserRequestDto updatedInfo) {
+    public ResponseEntity<UserResponseDto> updatePersonalInformation(@RequestParam String userId, @RequestBody UserRequestDto.info updatedInfo) {
         UserResponseDto updatedUser = myPageService.updateInformation(userId, updatedInfo);
         return ResponseEntity.ok(updatedUser);
     }
