@@ -24,8 +24,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public CommonResponseDto<?> login(@RequestBody UserRequestDto.login requestDto) {
-        return userService.login(requestDto);
+    public CommonResponseDto<?> login(@RequestBody UserRequestDto.login requestDto, HttpServletResponse response) {
+        return userService.login(requestDto, response);
     }
 
     @PostMapping("/signup")

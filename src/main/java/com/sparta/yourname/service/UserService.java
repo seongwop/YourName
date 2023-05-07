@@ -29,7 +29,7 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
     @Transactional
-    public CommonResponseDto<?> login(UserRequestDto.login requestDto) {
+    public CommonResponseDto<?> login(UserRequestDto.login requestDto, HttpServletResponse response) {
         User user = userRepository.findByUserId(requestDto.getUserId()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
@@ -48,8 +48,8 @@ public class UserService {
             refreshTokenRepository.save(newToken);
         }
 
-//        response.addHeader(JwtUtil.ACCESS_TOKEN, tokenDto.getAccessToken());
-//        response.addHeader(JwtUtil.REFRESH_TOKEN, tokenDto.getRefreshToken());
+        response.addHeader(JwtUtil.ACCESS_TOKEN, tokenDto.getAccessToken());
+        response.addHeader(JwtUtil.REFRESH_TOKEN, tokenDto.getRefreshToken());
 
         return new CommonResponseDto<>("로그인 성공");
     }
