@@ -7,9 +7,7 @@ import com.sparta.yourname.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 
 
-import com.sparta.yourname.dto.UserRequestDto;
 import com.sparta.yourname.dto.UserResponseDto;
-import com.sparta.yourname.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public UserResponseDto signup(@RequestBody UserRequestDto.signUp requestDto) {
+    public UserResponseDto signup(@RequestBody UserRequestDto.info requestDto) {
         return userService.signup(requestDto);
     }
 }

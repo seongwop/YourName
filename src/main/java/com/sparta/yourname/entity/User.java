@@ -40,7 +40,17 @@ public class User {
 
     private String blogurl;
 
-    public User(UserRequestDto.signUp requestDto) {
+    public User(UserRequestDto.info requestDto) {
+        this.userId = requestDto.getUserId();
+        this.password = requestDto.getPassword();
+        this.email = requestDto.getEmail();
+        this.username = requestDto.getUsername();
+        this.specialty = requestDto.getSpecialty();
+        this.mbti = requestDto.getMbti();
+        this.githuburl = requestDto.getGithubUrl();
+        this.blogurl = requestDto.getBlogUrl();
+    }
+    public void Update(UserRequestDto.info requestDto) {
         this.userId = requestDto.getUserId();
         this.password = requestDto.getPassword();
         this.email = requestDto.getEmail();
