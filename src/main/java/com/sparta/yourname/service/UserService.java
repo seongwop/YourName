@@ -52,7 +52,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto signup(UserRequestDto.signUp userRequestDto) {
+    public UserResponseDto signup(UserRequestDto.info userRequestDto) {
         String userid = userRequestDto.getUserId();
         String password =  userRequestDto.getPassword();//passwordEncoder.encode(signupRequestDto.getPassword());
 

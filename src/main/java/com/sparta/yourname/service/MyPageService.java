@@ -17,17 +17,17 @@ public class MyPageService {
         return user.toUserResponseDto();
     }
 
-    public UserResponseDto updateInformation(String userId, UserRequestDto updatedInfo) {
+    public UserResponseDto updateInformation(String userId, UserRequestDto.info updatedInfo) {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
+//        UserRequestDto.signUp
         // 업데이트
-        user.setEmail(updatedInfo.getEmail());
-        user.setSpecialty(updatedInfo.getSpecialty());
-        user.setMbti(updatedInfo.getMbti());
-        user.setGithuburl(updatedInfo.getGithubUrl());
-        user.setBlogurl(updatedInfo.getBlogUrl());
-
+//        user.setEmail(updatedInfo.getEmail());
+//        user.setSpecialty(updatedInfo.getSpecialty());
+//        user.setMbti(updatedInfo.getMbti());
+//        user.setGithuburl(updatedInfo.getGithubUrl());
+//        user.setBlogurl(updatedInfo.getBlogUrl());
+        user.Update(updatedInfo);
         // 업데이트한 정보를 저장
         User updatedUser = userRepository.save(user);
 
