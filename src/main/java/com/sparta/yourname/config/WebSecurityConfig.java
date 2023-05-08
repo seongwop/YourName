@@ -53,7 +53,7 @@ public class WebSecurityConfig {
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         // Custom 로그인 페이지 사용
-        http.formLogin().loginPage("/api/auth/login-page").permitAll();
+//        http.formLogin().loginPage("/api/auth/login-page").permitAll();
 
         // 401 Error 처리, Authorization 즉, 인증과정에서 실패할 시 처리
         http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
