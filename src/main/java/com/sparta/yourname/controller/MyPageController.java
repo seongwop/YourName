@@ -10,22 +10,35 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/mypage")
 /*GIT TEST*/
 public class MyPageController {
 
     private final MyPageService myPageService;
 
     //개인 정보 조회
-    @GetMapping("/api/mypage")
-    public ResponseEntity<UserResponseDto> getPersonalInformation(@RequestParam String userId) {
-        UserResponseDto user = myPageService.getInformation(userId);
+//    @GetMapping("/api/mypage")
+//    public ResponseEntity<UserResponseDto> getPersonalInformation(@RequestParam String userId) {
+//        UserResponseDto user = myPageService.getInformation(userId);
+//        return ResponseEntity.ok(user);
+//    }
+//
+//    //개인 정보 수정
+//    @PutMapping("/api/mypage")
+//    public ResponseEntity<UserResponseDto> updatePersonalInformation(@RequestParam String userId, @RequestBody UserRequestDto.info updatedInfo) {
+//        UserResponseDto updatedUser = myPageService.updateInformation(userId, updatedInfo);
+//        return ResponseEntity.ok(updatedUser);
+//    }
+    @GetMapping
+    public ResponseEntity<UserResponseDto> getPersonalInformation() {
+        UserResponseDto user = myPageService.getInformation();
         return ResponseEntity.ok(user);
     }
 
-    //개인 정보 수정
-    @PutMapping("/api/mypage")
-    public ResponseEntity<UserResponseDto> updatePersonalInformation(@RequestParam String userId, @RequestBody UserRequestDto.info updatedInfo) {
-        UserResponseDto updatedUser = myPageService.updateInformation(userId, updatedInfo);
+    // 개인 정보 수정
+    @PutMapping
+    public ResponseEntity<UserResponseDto> updatePersonalInformation(@RequestBody UserRequestDto.info updatedInfo) {
+        UserResponseDto updatedUser = myPageService.updateInformation(updatedInfo);
         return ResponseEntity.ok(updatedUser);
     }
 
