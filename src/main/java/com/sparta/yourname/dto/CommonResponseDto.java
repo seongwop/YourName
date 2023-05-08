@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommonResponseDto <T> {
     private String msg;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     public CommonResponseDto(String msg, T data) {
@@ -18,5 +18,9 @@ public class CommonResponseDto <T> {
 
     public CommonResponseDto(String msg) {
         this.msg = msg;
+    }
+
+    public CommonResponseDto(T data) {
+        this.data = data;
     }
 }
