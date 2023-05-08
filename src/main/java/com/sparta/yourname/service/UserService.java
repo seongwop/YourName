@@ -33,9 +33,11 @@ public class UserService {
         User user = userRepository.findByUserId(requestDto.getUserId()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
+
         if (!passwordEncoder.matches(requestDto.getPassword(),user.getPassword())) {
             throw new RuntimeException("비밀번호가 일치하지 않습니다."); // 디테일한 예외 클래스 필요
         }
+
         TokenDto tokenDto = jwtUtil.createAllToken(user.getUserId());
 
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUser(user);
