@@ -49,6 +49,7 @@ public class UserService {
         }
 
         response.addHeader(JwtUtil.ACCESS_TOKEN, tokenDto.getAccessToken());
+        System.out.println(tokenDto.getAccessToken());
         response.addHeader(JwtUtil.REFRESH_TOKEN, tokenDto.getRefreshToken());
 
         return new CommonResponseDto<>("로그인 성공");
