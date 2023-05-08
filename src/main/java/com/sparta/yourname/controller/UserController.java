@@ -10,10 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.sparta.yourname.dto.UserResponseDto;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -27,13 +24,14 @@ public class UserController {
     public CommonResponseDto<?> login(@RequestBody UserRequestDto.login requestDto, HttpServletResponse response) {
         return userService.login(requestDto, response);
     }
-
+    @ResponseBody
     @PostMapping("/signup")
-    public UserResponseDto signup(@RequestBody UserRequestDto.info requestDto) {
+    public CommonResponseDto<?> signup(@RequestBody UserRequestDto.info requestDto) {
         return userService.signup(requestDto);
     }
+    @ResponseBody
     @PostMapping("/userdelete")
-    public UserResponseDto userDelete(@RequestBody UserRequestDto.info requestDto) {
+    public CommonResponseDto<?> userDelete(@RequestBody UserRequestDto.info requestDto) {
         System.out.println("깃 테스트");
         return userService.delete(requestDto);
     }

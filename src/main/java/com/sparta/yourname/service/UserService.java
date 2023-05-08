@@ -33,7 +33,7 @@ public class UserService {
         User user = userRepository.findByUserId(requestDto.getUserId()).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-        if (!passwordEncoder.matches(user.getPassword(), requestDto.getPassword())) {
+        if (!passwordEncoder.matches(requestDto.getPassword(),user.getPassword())) {
             throw new RuntimeException("비밀번호가 일치하지 않습니다."); // 디테일한 예외 클래스 필요
         }
         TokenDto tokenDto = jwtUtil.createAllToken(user.getUserId());
@@ -55,17 +55,13 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto signup(UserRequestDto.info userRequestDto) {
+    public CommonResponseDto<?> signup(UserRequestDto.info userRequestDto) {
 
         String userId = userRequestDto.getUserId();
         String password = userRequestDto.getPassword();
         // username과 password의 유효성 검사
         boolean isUsernameValid = isValidUsername(userId);
         boolean isPasswordValid = isValidPassword(password);
-        if(isUsernameValid == false)
-            return null;
-        if(isPasswordValid == false)
-            return null;
 
         // 유효성 검사 결과 출력
         System.out.println("Username is valid: " + isUsernameValid);
@@ -87,17 +83,21 @@ public class UserService {
 
         User user = new User(userRequestDto);
         userRepository.save(user);
-        return null;
+        return new CommonResponseDto<>("회원 가입 성공");
     }
 
     @Transactional
-    public UserResponseDto delete(UserRequestDto.info userRequestDto) {
+    public CommonResponseDto<?> delete(UserRequestDto.info userRequestDto) {
 
         userRepository.findByUserId(userRequestDto.getUserId()).orElseThrow(
                 () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
         );
         User user = userRepository.findByUserId(userRequestDto.getUserId()).orElseGet(User::new);
+
+        // 해당 사용자와 관련된 refresh_token 레코드 삭제
+        refreshTokenRepository.deleteByUser(user);
+
         userRepository.delete(user);
-        return null;//new UserResponseDto( user);
+        return new CommonResponseDto<>("회원 탈퇴 성공");
     }
 }
