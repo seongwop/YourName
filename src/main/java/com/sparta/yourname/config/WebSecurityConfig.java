@@ -46,6 +46,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests()
                 //회원가입, 로그인페이지
+
                 .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
                 // 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
@@ -57,9 +58,6 @@ public class WebSecurityConfig {
 
         // 401 Error 처리, Authorization 즉, 인증과정에서 실패할 시 처리
         http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);
-
-
-
 
         return http.build();
     }

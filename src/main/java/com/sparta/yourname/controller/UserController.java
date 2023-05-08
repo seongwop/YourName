@@ -7,38 +7,33 @@ import com.sparta.yourname.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 
 
-import com.sparta.yourname.dto.UserRequestDto;
 import com.sparta.yourname.dto.UserResponseDto;
-import com.sparta.yourname.service.UserService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/auth")
+@RequestMapping("/api/auth")
 public class UserController {
 
     private final UserService userService;
 
     @PostMapping("/login")
-    public CommonResponseDto<?> login(@RequestBody UserRequestDto.login requestDto,
-                                      HttpServletResponse response) {
+    public CommonResponseDto<?> login(@RequestBody UserRequestDto.login requestDto, HttpServletResponse response) {
         return userService.login(requestDto, response);
     }
-
-
-
-
+    @ResponseBody
     @PostMapping("/signup")
-    public UserResponseDto signup(@RequestBody UserRequestDto userRequestDto) {
-        return userService.signup(userRequestDto);
+    public CommonResponseDto<?> signup(@RequestBody UserRequestDto.info requestDto) {
+        return userService.signup(requestDto);
     }
-
-
+    @ResponseBody
+    @PostMapping("/userdelete")
+    public CommonResponseDto<?> userDelete(@RequestBody UserRequestDto.info requestDto) {
+        System.out.println("깃 테스트");
+        return userService.delete(requestDto);
+    }
 
 }
