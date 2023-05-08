@@ -19,7 +19,6 @@ public class MyPageService {
     public UserResponseDto getInformation() {
 
         String userId = authenticationFacade.getAuthentication().getName();
-        System.out.println(userId);
         User user = userRepository.findByUsername(userId).orElseThrow(
                 ()-> new IllegalArgumentException("User not found")
         );
