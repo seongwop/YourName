@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.sparta.yourname.dto.UserResponseDto;
+
 import java.util.Optional;
 
 import static com.sparta.yourname.util.ValidateUtil.isValidPassword;

@@ -5,10 +5,6 @@ import com.sparta.yourname.dto.CommonResponseDto;
 import com.sparta.yourname.dto.UserRequestDto;
 import com.sparta.yourname.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-
-
-import com.sparta.yourname.dto.UserResponseDto;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

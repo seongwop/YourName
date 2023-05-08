@@ -2,7 +2,6 @@ package com.sparta.yourname.service;
 
 import com.sparta.yourname.dto.BoardRequestDto;
 import com.sparta.yourname.dto.BoardResponseDto;
-import com.sparta.yourname.dto.CommonResponseDto;
 import com.sparta.yourname.entity.Board;
 import com.sparta.yourname.repository.BoardRepository;
 import com.sparta.yourname.repository.UserRepository;
@@ -33,8 +32,9 @@ public class BoardService {
     }
 
     @Transactional
-    public String deleteBoard(BoardRequestDto.delete requestDto) {
-        Board board = boardRepository.findById(requestDto.getId()).orElseThrow(
+    public String deleteBoard(BoardRequestDto.delete requestDto, UserDetailsImpl userDetails) {
+
+        Board board = boardRepository.findByIdAndUser(requestDto.getId(), userDetails.getUser()).orElseThrow(
                 () -> new NullPointerException("게시글이 존재하지 않습니다.")
         );
 
