@@ -58,6 +58,17 @@ public class User {
         this.blogurl = requests.getBlogurl();
 
     }
+    
+    public void Update(UserRequestDto.info requestDto) {
+        this.userId = requestDto.getUserId();
+        this.password = requestDto.getPassword();
+        this.email = requestDto.getEmail();
+        this.username = requestDto.getUsername();
+        this.specialty = requestDto.getSpecialty();
+        this.mbti = requestDto.getMbti();
+        this.githuburl = requestDto.getGithubUrl();
+        this.blogurl = requestDto.getBlogUrl();
+    }
 
 
     public UserResponseDto toUserResponseDto() {
