@@ -17,7 +17,7 @@ public class MyPageService {
         return user.toUserResponseDto();
     }
 
-    public UserResponseDto updateInformation(String userId, UserRequestDto updatedInfo) {
+    public UserResponseDto updateInformation(String userId, UserRequestDto.info updatedInfo) {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 

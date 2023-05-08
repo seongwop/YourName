@@ -46,7 +46,7 @@ public class User {
 
 
 
-    public User(UserRequestDto requests) {
+    public User(UserRequestDto.info requests) {
         this.userId = requests.getUserId();
         this.password = requests.getPassword();
         this.email = requests.getEmail();
