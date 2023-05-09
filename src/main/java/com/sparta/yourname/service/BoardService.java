@@ -36,7 +36,7 @@ public class BoardService {
     public String deleteBoard(Long id, UserDetailsImpl userDetails) {
 
         Board board = boardRepository.findByIdAndUser(id, userDetails.getUser()).orElseThrow(
-                () -> new NullPointerException("게시글이 존재하지 않습니다.")
+                () -> new NullPointerException("게시글이 존재하지 않거나 작성자가 아닙니다.")
         );
 
         boardRepository.delete(board);
