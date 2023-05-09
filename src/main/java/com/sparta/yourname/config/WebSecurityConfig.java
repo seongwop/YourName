@@ -50,7 +50,9 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests()
                 //회원가입, 로그인페이지
 
-                .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/members/**").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/board/**").permitAll()
                 // 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
                 // JWT 인증/인가를 사용하기 위한 설정
@@ -76,8 +78,7 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // 사전에 약속된 출처를 명시
-        config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedOrigin("http://localhost:3001");
+        config.addAllowedOriginPattern("*");
 
         // 특정 헤더를 클라이언트 측에서 사용할 수 있게 지정
         // 만약 지정하지 않는다면, Authorization 헤더 내의 토큰 값을 사용할 수 없음
