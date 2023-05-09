@@ -32,9 +32,9 @@ public class BoardService {
     }
 
     @Transactional
-    public String deleteBoard(BoardRequestDto.delete requestDto, UserDetailsImpl userDetails) {
+    public String deleteBoard(Long id, UserDetailsImpl userDetails) {
 
-        Board board = boardRepository.findByIdAndUser(requestDto.getId(), userDetails.getUser()).orElseThrow(
+        Board board = boardRepository.findByIdAndUser(id, userDetails.getUser()).orElseThrow(
                 () -> new NullPointerException("게시글이 존재하지 않습니다.")
         );
 

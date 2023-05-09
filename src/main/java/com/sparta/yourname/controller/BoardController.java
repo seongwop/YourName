@@ -25,9 +25,9 @@ public class BoardController {
         return new CommonResponseDto<>(boardService.showAllBoards());
     }
 
-    @DeleteMapping("")
-    public CommonResponseDto<?> deleteBoard(@RequestBody BoardRequestDto.delete requestDto,  @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return new CommonResponseDto<>(boardService.deleteBoard(requestDto, userDetails));
+    @DeleteMapping("/{id}")
+    public CommonResponseDto<?> deleteBoard(@PathVariable Long id,  @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return new CommonResponseDto<>(boardService.deleteBoard(id, userDetails));
     }
 
 }

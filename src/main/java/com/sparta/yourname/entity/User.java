@@ -66,8 +66,8 @@ public class User {
         this.username = requestDto.getUsername();
         this.specialty = requestDto.getSpecialty();
         this.mbti = requestDto.getMbti();
-        this.githuburl = requestDto.getGithubUrl();
-        this.blogurl = requestDto.getBlogUrl();
+        this.githuburl = requestDto.getGithuburl();
+        this.blogurl = requestDto.getBlogurl();
     }
 
 
