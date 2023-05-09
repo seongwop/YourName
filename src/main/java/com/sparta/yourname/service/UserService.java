@@ -61,8 +61,10 @@ public class UserService {
         return new CommonResponseDto<>("로그인 성공");
     }
 
+    // 이미지 업로드 기능 추가 시 적용
+    // public CommonResponseDto<?> signup(UserRequestDto.info userRequestDto, MultipartFile image) throws IOException
     @Transactional
-    public CommonResponseDto<?> signup(UserRequestDto.info userRequestDto, MultipartFile image) throws IOException {
+    public CommonResponseDto<?> signup(UserRequestDto.info userRequestDto) {
 
         String userId = userRequestDto.getUserId();
         String password = userRequestDto.getPassword();
@@ -89,13 +91,15 @@ public class UserService {
 
         User user = new User(userRequestDto);
 
+        // 이미지 처리
+//        if (image == null || image.isEmpty()) {
+//            user.setImageUrl(randomImageUrl());
+//        } else {
+//            String storedImageUrl = s3Uploader.upload(image, "images");
+//            user.setImageUrl(storedImageUrl);
+//        }
 
-        if (image == null || image.isEmpty()) {
-            user.setImageUrl(randomImageUrl());
-        } else {
-            String storedImageUrl = s3Uploader.upload(image, "images");
-            user.setImageUrl(storedImageUrl);
-        }
+        user.setImageUrl(randomImageUrl());
 
         userRepository.save(user);
         return new CommonResponseDto<>("회원 가입 성공");

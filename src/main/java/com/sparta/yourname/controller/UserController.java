@@ -23,11 +23,20 @@ public class UserController {
     public CommonResponseDto<?> login(@RequestBody UserRequestDto.login requestDto, HttpServletResponse response) {
         return userService.login(requestDto, response);
     }
+
+    // 이미지 업로드 추가
+//    @ResponseBody
+//    @PostMapping("/signup")
+//    public CommonResponseDto<?> signup(@RequestPart(value = "dto") UserRequestDto.info requestDto, @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
+//        return userService.signup(requestDto, image);
+//    }
+
     @ResponseBody
     @PostMapping("/signup")
-    public CommonResponseDto<?> signup(@RequestPart(value = "dto") UserRequestDto.info requestDto, @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
-        return userService.signup(requestDto, image);
+    public CommonResponseDto<?> signup(@RequestBody UserRequestDto.info requestDto) {
+        return userService.signup(requestDto);
     }
+
     @ResponseBody
     @PostMapping("/userdelete")
     public CommonResponseDto<?> userDelete(@RequestBody UserRequestDto.info requestDto) {
