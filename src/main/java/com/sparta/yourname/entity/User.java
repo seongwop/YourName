@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Entity(name = "users")
 @Getter
@@ -39,6 +41,9 @@ public class User {
     private String githuburl;
     @Column(nullable = false)
     private String blogurl;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
 
     public User(UserRequestDto.info requestDto) {
         this.userId = requestDto.getUserId();
