@@ -35,16 +35,16 @@ public class User {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String specialty;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String mbti;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String githuburl;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String blogurl;
 
 
