@@ -123,7 +123,7 @@ public class UserService {
     public String randomImageUrl() {
         String bucketName = "myimageshop";
         String objectKey = "/randomImages/random";
-        objectKey = objectKey + (int) (Math.random() * 7) + 1 + ".png";
+        objectKey = objectKey + (int) (Math.random() * 7 + 1) + ".png";
 
         String imageUrl = " https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com" + objectKey;
 
