@@ -49,6 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 //Access & Refresh 토큰 만료시
                 else {
                     jwtExceptionHandler(response, "Token Error", HttpStatus.UNAUTHORIZED.value());
+                    return;
                 }
             }
         }

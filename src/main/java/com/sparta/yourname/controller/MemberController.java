@@ -1,5 +1,7 @@
 package com.sparta.yourname.controller;
 
+import com.sparta.yourname.dto.CommentRequestDto;
+import com.sparta.yourname.dto.CommentResponseDto;
 import com.sparta.yourname.dto.MemberResponseDto;
 import com.sparta.yourname.dto.MemberSummaryDto;
 import com.sparta.yourname.entity.Comment;
@@ -33,17 +35,18 @@ public class MemberController {
     }
 
     @PostMapping("/{userId}/comments")
-    public ResponseEntity<Comment> createComment(@PathVariable Long userId, @RequestBody String content) {
-        Comment comment = memberService.createComment(userId, content);
-        return ResponseEntity.status(HttpStatus.CREATED).body(comment);
+    public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long userId, @RequestBody CommentRequestDto commentRequestDto, Authentication authentication) {
+        Comment comment = memberService.createComment(userId, commentRequestDto.getContent(), authentication);
+        CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(commentResponseDto);
     }
 
-    @PutMapping("/{userId}/comments/{commentId}")
-    public ResponseEntity<Comment> updateComment(@PathVariable Long commentId, @RequestBody String content, Authentication authentication) {
-
-        Comment comment = memberService.updateComment(commentId, content, authentication);
-        return ResponseEntity.ok(comment);
-    }
+//    @PutMapping("/{userId}/comments/{commentId}")
+//    public ResponseEntity<Comment> updateComment(@PathVariable Long commentId, @RequestBody String content, Authentication authentication) {
+//
+//        Comment comment = memberService.updateComment(commentId, content, authentication);
+//        return ResponseEntity.ok(comment);
+//    }
 
     @DeleteMapping("/{userId}/comments/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long commentId, Authentication authentication) {

@@ -18,15 +18,17 @@ public class Comment {
 
     @Column(nullable = false)
     private String content;
-    public Comment(User user, String content){
+
+    @Column(nullable = false)
+    private String username;
+
+    public Comment(User user, String content, String username){
         this.user = user;
         this.content = content;
+        this.username = username;
     }
 
     public void updateContent(String content) {
         this.content = content;
     }
-
-
-
 }

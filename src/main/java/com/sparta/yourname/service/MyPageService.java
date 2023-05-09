@@ -36,7 +36,7 @@ public class MyPageService {
 
         // 업데이트
 
-        user.Update(updatedInfo);
+        user.update(updatedInfo);
 
         // 업데이트한 정보를 저장
         User updatedUser = userRepository.save(user);

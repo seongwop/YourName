@@ -54,6 +54,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET,"/api/members/**").permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/board/**").permitAll()
                 // 어떤 요청이든 '인증'
+                .requestMatchers(HttpMethod.POST, "/api/members/*/comments").hasRole("USER")
                 .anyRequest().authenticated()
                 // JWT 인증/인가를 사용하기 위한 설정
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
