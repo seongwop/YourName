@@ -24,6 +24,7 @@ public class BoardService {
     public BoardResponseDto createBoard(BoardRequestDto.create requestDto,UserDetailsImpl userDetails) {
         Board board = boardRepository.saveAndFlush(Board.saveBoard(requestDto, userDetails));
         return new BoardResponseDto(board);
+
     }
 
     @Transactional

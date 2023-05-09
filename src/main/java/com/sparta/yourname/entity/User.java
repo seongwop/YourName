@@ -41,10 +41,9 @@ public class User {
     @Column(nullable = false)
     private String blogurl;
 
-
-
-
-
+    @Setter
+    @Column
+    private String imageUrl;
 
     public User(UserRequestDto.info requests) {
         this.userId = requests.getUserId();
@@ -80,7 +79,8 @@ public class User {
                 specialty,
                 mbti,
                 githuburl,
-                blogurl
+                blogurl,
+                imageUrl
         );
     }
 }

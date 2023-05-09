@@ -8,12 +8,15 @@ import com.sparta.yourname.entity.User;
 import com.sparta.yourname.jwt.JwtUtil;
 import com.sparta.yourname.repository.RefreshTokenRepository;
 import com.sparta.yourname.repository.UserRepository;
+import com.sparta.yourname.util.S3Uploader;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static com.sparta.yourname.util.ValidateUtil.isValidPassword;
@@ -27,6 +30,7 @@ public class UserService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final S3Uploader s3Uploader;
 
     @Transactional
     public CommonResponseDto<?> login(UserRequestDto.login requestDto, HttpServletResponse response) {
@@ -58,7 +62,7 @@ public class UserService {
     }
 
     @Transactional
-    public CommonResponseDto<?> signup(UserRequestDto.info userRequestDto) {
+    public CommonResponseDto<?> signup(UserRequestDto.info userRequestDto, MultipartFile image) throws IOException {
 
         String userId = userRequestDto.getUserId();
         String password = userRequestDto.getPassword();
@@ -83,8 +87,16 @@ public class UserService {
             throw new RuntimeException("사용자 조회 중 오류가 발생했습니다.");
         }
 
-
         User user = new User(userRequestDto);
+
+
+        if (image == null || image.isEmpty()) {
+            user.setImageUrl(randomImageUrl());
+        } else {
+            String storedImageUrl = s3Uploader.upload(image, "images");
+            user.setImageUrl(storedImageUrl);
+        }
+
         userRepository.save(user);
         return new CommonResponseDto<>("회원 가입 성공");
     }
@@ -102,5 +114,15 @@ public class UserService {
 
         userRepository.delete(user);
         return new CommonResponseDto<>("회원 탈퇴 성공");
+    }
+
+    public String randomImageUrl() {
+        String bucketName = "myimageshop";
+        String objectKey = "/randomImages/random";
+        objectKey = objectKey + (int) (Math.random() * 7) + 1 + ".png";
+
+        String imageUrl = " https://" + bucketName + ".s3.ap-northeast-2.amazonaws.com" + objectKey;
+
+        return imageUrl;
     }
 }

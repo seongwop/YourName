@@ -15,9 +15,10 @@ public class UserResponseDto {
     private String mbti;
     private String githubUrl;
     private String blogUrl;
+    private String imageUrl;
 
     @Builder
-    public UserResponseDto(Long id, String userId, String email, String username, String specialty, String mbti, String githubUrl, String blogUrl) {
+    public UserResponseDto(Long id, String userId, String email, String username, String specialty, String mbti, String githubUrl, String blogUrl, String imageUrl) {
         this.id = id;
         this.userId = userId;
         this.email = email;
@@ -26,6 +27,7 @@ public class UserResponseDto {
         this.mbti = mbti;
         this.githubUrl = githubUrl;
         this.blogUrl = blogUrl;
+        this.imageUrl = imageUrl;
     }
 }
 
