@@ -1,7 +1,9 @@
 package com.sparta.yourname.dto;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class MemberSummaryDto {
     private Long id;
     private String username;

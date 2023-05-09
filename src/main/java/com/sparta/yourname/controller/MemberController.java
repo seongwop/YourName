@@ -1,7 +1,7 @@
 package com.sparta.yourname.controller;
 
 import com.sparta.yourname.dto.MemberResponseDto;
-import com.sparta.yourname.dto.UserResponseDto;
+import com.sparta.yourname.dto.MemberSummaryDto;
 import com.sparta.yourname.entity.Comment;
 import com.sparta.yourname.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ public class MemberController {
 
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDto>> getAllMembers() {
-        List<UserResponseDto> members = memberService.getAllMembers();
+    public ResponseEntity<List<MemberSummaryDto>> getAllMembers() {
+        List<MemberSummaryDto> members = memberService.getAllMembers();
         return ResponseEntity.ok(members);
     }
 

@@ -23,7 +23,7 @@ public class MyPageService {
         Long userId = userDetails.getUser().getId();
 
         User user = userRepository.findById(userId).orElseThrow(
-                ()-> new IllegalArgumentException("User not found")
+                ()-> new IllegalArgumentException("사용자를 찾을 수 없습니다")
         );
         return user.toUserResponseDto();
     }
@@ -32,7 +32,7 @@ public class MyPageService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         Long userId = userDetails.getUser().getId();
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 
         // 업데이트
         user.Update(updatedInfo);

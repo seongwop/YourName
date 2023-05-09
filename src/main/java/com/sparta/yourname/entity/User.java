@@ -58,16 +58,28 @@ public class User {
 
 
     public void Update(UserRequestDto.info requestDto) {
-        this.userId = requestDto.getUserId();
-        this.password = requestDto.getPassword();
-        this.email = requestDto.getEmail();
-        this.username = requestDto.getUsername();
-        this.specialty = requestDto.getSpecialty();
-        this.mbti = requestDto.getMbti();
-        this.githuburl = requestDto.getGithubUrl();
-        this.blogurl = requestDto.getBlogUrl();
+        if (requestDto.getUsername() != null) {
+            this.username = requestDto.getUsername();
+        }
+        if (requestDto.getPassword() != null) {
+            this.password = requestDto.getPassword();
+        }
+        if (requestDto.getEmail() != null) {
+            this.email = requestDto.getEmail();
+        }
+        if (requestDto.getSpecialty() != null) {
+            this.specialty = requestDto.getSpecialty();
+        }
+        if (requestDto.getMbti() != null) {
+            this.mbti = requestDto.getMbti();
+        }
+        if (requestDto.getGithubUrl() != null) {
+            this.githuburl = requestDto.getGithubUrl();
+        }
+        if (requestDto.getBlogUrl() != null) {
+            this.blogurl = requestDto.getBlogUrl();
+        }
     }
-
     public UserResponseDto toUserResponseDto() {
         return UserResponseDto.builder()
                 .id(id)
