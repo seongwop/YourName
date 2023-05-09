@@ -5,6 +5,7 @@ import com.sparta.yourname.security.UserDetailsImpl;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -30,5 +31,4 @@ public class Board {
     public static Board saveBoard(BoardRequestDto.create requestDto, UserDetailsImpl userDetails){
        return new Board(requestDto.getTitle(), requestDto.getContent(), userDetails.getUser());
     }
-
 }

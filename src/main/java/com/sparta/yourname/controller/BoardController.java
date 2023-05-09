@@ -2,10 +2,8 @@ package com.sparta.yourname.controller;
 
 import com.sparta.yourname.dto.BoardRequestDto;
 import com.sparta.yourname.dto.CommonResponseDto;
-import com.sparta.yourname.dto.UserRequestDto;
 import com.sparta.yourname.security.UserDetailsImpl;
 import com.sparta.yourname.service.BoardService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +25,9 @@ public class BoardController {
         return new CommonResponseDto<>(boardService.showAllBoards());
     }
 
-    @DeleteMapping("")
-    public CommonResponseDto<?> deleteBoard(@RequestBody BoardRequestDto.delete requestDto) {
-        return new CommonResponseDto<>(boardService.deleteBoard(requestDto));
+    @DeleteMapping("/{id}")
+    public CommonResponseDto<?> deleteBoard(@PathVariable Long id,  @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return new CommonResponseDto<>(boardService.deleteBoard(id, userDetails));
     }
 
 }

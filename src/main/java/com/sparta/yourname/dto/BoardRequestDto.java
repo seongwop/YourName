@@ -13,12 +13,5 @@ public class BoardRequestDto {
         private String content;
     }
 
-    @Getter
-    @NoArgsConstructor
-    public static class delete{
-        private Long id;
-    }
-
-
 
 }

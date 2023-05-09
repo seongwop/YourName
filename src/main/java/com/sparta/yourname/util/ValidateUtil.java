@@ -1,7 +1,5 @@
 package com.sparta.yourname.util;
-import java.util.Collection;
-import java.util.Map;
-import java.util.regex.Matcher;
+
 import java.util.regex.Pattern;
 
 public class ValidateUtil {

@@ -48,6 +48,7 @@ public class User {
     private String blogurl;
 
 
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
@@ -88,6 +89,11 @@ public class User {
     }
 
 
+    @Setter
+    @Column
+    private String imageUrl;
+
+
 
 
 
@@ -106,6 +112,20 @@ public class User {
 //    }
 
 
+    
+    
+    public void Update(UserRequestDto.info requestDto) {
+        this.userId = requestDto.getUserId();
+        this.password = requestDto.getPassword();
+        this.email = requestDto.getEmail();
+        this.username = requestDto.getUsername();
+        this.specialty = requestDto.getSpecialty();
+        this.mbti = requestDto.getMbti();
+        this.githuburl = requestDto.getGithuburl();
+        this.blogurl = requestDto.getBlogurl();
+    }
+
+
 
     public UserResponseDto toUserResponseDto() {
         return new UserResponseDto(
@@ -116,7 +136,8 @@ public class User {
                 specialty,
                 mbti,
                 githuburl,
-                blogurl
+                blogurl,
+                imageUrl
         );
     }
 }
