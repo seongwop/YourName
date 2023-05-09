@@ -7,8 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+import java.util.List;
+
+
+
 @Getter@Setter
 @NoArgsConstructor
+
 @Entity(name = "users")
 public class User {
     @Id
@@ -41,22 +47,72 @@ public class User {
     @Column(nullable = false)
     private String blogurl;
 
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
+    public User(UserRequestDto.info requestDto) {
+        this.userId = requestDto.getUserId();
+        this.password = requestDto.getPassword();
+        this.email = requestDto.getEmail();
+        this.username = requestDto.getUsername();
+        this.specialty = requestDto.getSpecialty();
+        this.mbti = requestDto.getMbti();
+        this.githuburl = requestDto.getGithuburl();
+        this.blogurl = requestDto.getBlogurl();
+    }
+
+
+    public void Update(UserRequestDto.info requestDto) {
+        if (requestDto.getUsername() != null) {
+            this.username = requestDto.getUsername();
+        }
+        if (requestDto.getPassword() != null) {
+            this.password = requestDto.getPassword();
+        }
+        if (requestDto.getEmail() != null) {
+            this.email = requestDto.getEmail();
+        }
+        if (requestDto.getSpecialty() != null) {
+            this.specialty = requestDto.getSpecialty();
+        }
+        if (requestDto.getMbti() != null) {
+            this.mbti = requestDto.getMbti();
+        }
+        if (requestDto.getGithuburl() != null) {
+            this.githuburl = requestDto.getGithuburl();
+        }
+        if (requestDto.getBlogurl() != null) {
+            this.blogurl = requestDto.getBlogurl();
+        }
+    }
+
+
     @Setter
     @Column
     private String imageUrl;
 
-    public User(UserRequestDto.info requests) {
-        this.userId = requests.getUserId();
-        this.password = requests.getPassword();
-        this.email = requests.getEmail();
-        this.username = requests.getUsername();
 
-        this.specialty = requests.getSpecialty();
-        this.mbti = requests.getMbti();
-        this.githuburl = requests.getGithuburl();
-        this.blogurl = requests.getBlogurl();
 
-    }
+
+
+
+//    public User(UserRequestDto.info requests) {
+//        this.userId = requests.getUserId();
+//        this.password = requests.getPassword();
+//        this.email = requests.getEmail();
+//        this.username = requests.getUsername();
+//
+//        this.specialty = requests.getSpecialty();
+//        this.mbti = requests.getMbti();
+//        this.githuburl = requests.getGithubUrl();
+//        this.blogurl = requests.getBlogUrl();
+//
+//    }
+
+
+    
     
     public void Update(UserRequestDto.info requestDto) {
         this.userId = requestDto.getUserId();
@@ -68,6 +124,7 @@ public class User {
         this.githuburl = requestDto.getGithuburl();
         this.blogurl = requestDto.getBlogurl();
     }
+
 
 
     public UserResponseDto toUserResponseDto() {
