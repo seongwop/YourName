@@ -50,12 +50,11 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
                 // 어떤 요청이든 '인증'
                 .anyRequest().authenticated()
-
                 // JWT 인증/인가를 사용하기 위한 설정
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         // Custom 로그인 페이지 사용
-        http.formLogin().loginPage("/api/auth/login-page").permitAll();
+//        http.formLogin().loginPage("/api/auth/login-page").permitAll();
 
         // 401 Error 처리, Authorization 즉, 인증과정에서 실패할 시 처리
         http.exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint);

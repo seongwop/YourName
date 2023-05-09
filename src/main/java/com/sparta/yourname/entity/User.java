@@ -3,29 +3,34 @@ package com.sparta.yourname.entity;
 import com.sparta.yourname.dto.UserRequestDto;
 import com.sparta.yourname.dto.UserResponseDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import java.util.List;
 
 
+
+@Getter@Setter
+@NoArgsConstructor
+
 @Entity(name = "users")
-@Getter
-@NoArgsConstructor//(access = AccessLevel.PROTECTED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@NotBlank
-    @Column(nullable = false,unique = true) // unique: 중복 허용 여부 (false 일때 중복 허용)
+    // nullable: null 허용 여부
+    // unique: 중복 허용 여부 (false 일때 중복 허용)
+    @Column(nullable = false, unique = true)
     private String userId;
 
-    @Column(nullable = false)//@NotBlank
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Column(nullable = false)
     private String username;
@@ -35,12 +40,13 @@ public class User {
 
     @Column(nullable = false)
     private String mbti;
-    @Column(nullable = false)
-    private String email;
+
     @Column(nullable = false)
     private String githuburl;
+
     @Column(nullable = false)
     private String blogurl;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
@@ -52,8 +58,8 @@ public class User {
         this.username = requestDto.getUsername();
         this.specialty = requestDto.getSpecialty();
         this.mbti = requestDto.getMbti();
-        this.githuburl = requestDto.getGithubUrl();
-        this.blogurl = requestDto.getBlogUrl();
+        this.githuburl = requestDto.getGithuburl();
+        this.blogurl = requestDto.getBlogurl();
     }
 
 
@@ -73,23 +79,44 @@ public class User {
         if (requestDto.getMbti() != null) {
             this.mbti = requestDto.getMbti();
         }
-        if (requestDto.getGithubUrl() != null) {
-            this.githuburl = requestDto.getGithubUrl();
+        if (requestDto.getGithuburl() != null) {
+            this.githuburl = requestDto.getGithuburl();
         }
-        if (requestDto.getBlogUrl() != null) {
-            this.blogurl = requestDto.getBlogUrl();
+        if (requestDto.getBlogurl() != null) {
+            this.blogurl = requestDto.getBlogurl();
         }
     }
+
+
+
+
+
+
+//    public User(UserRequestDto.info requests) {
+//        this.userId = requests.getUserId();
+//        this.password = requests.getPassword();
+//        this.email = requests.getEmail();
+//        this.username = requests.getUsername();
+//
+//        this.specialty = requests.getSpecialty();
+//        this.mbti = requests.getMbti();
+//        this.githuburl = requests.getGithubUrl();
+//        this.blogurl = requests.getBlogUrl();
+//
+//    }
+
+
+
     public UserResponseDto toUserResponseDto() {
-        return UserResponseDto.builder()
-                .id(id)
-                .userId(userId)
-                .email(email)
-                .username(username)
-                .specialty(specialty)
-                .mbti(mbti)
-                .githubUrl(githuburl)
-                .blogUrl(blogurl)
-                .build();
+        return new UserResponseDto(
+                id,
+                userId,
+                email,
+                username,
+                specialty,
+                mbti,
+                githuburl,
+                blogurl
+        );
     }
 }

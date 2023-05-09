@@ -35,7 +35,9 @@ public class MyPageService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 
         // 업데이트
+
         user.Update(updatedInfo);
+
         // 업데이트한 정보를 저장
         User updatedUser = userRepository.save(user);
 

@@ -15,8 +15,8 @@ public class UserRequestDto {
       private String username;
       private String specialty;
       private String mbti;
-      private String githubUrl;
-      private String blogUrl;
+      private String githuburl;
+      private String blogurl;
 
         public void setPassword(String password) {
             this.password = password;

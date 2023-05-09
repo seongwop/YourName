@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/mypage")
 /*GIT TEST*/
+
 public class MyPageController {
 
     private final MyPageService myPageService;
