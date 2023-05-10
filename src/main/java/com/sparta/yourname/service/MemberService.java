@@ -117,18 +117,23 @@ public class MemberService {
                 () -> new CustomError(CustomErrorMessage.COMMENT_NOT_EXIST)
         );
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        if(commentLikeRepository.findByCommentAndUser(comment, userDetails.getUser()) == null){
-            CommentLike commentLike = new CommentLike(userDetails.getUser(), comment);
-            commentLikeRepository.saveAndFlush(commentLike);
+        CommentLike commentLike = commentLikeRepository.findByCommentAndUser(comment, userDetails.getUser());
+        if(commentLike == null ){
+            CommentLike newCommentLike = new CommentLike(userDetails.getUser(), comment);
+            commentLikeRepository.saveAndFlush(newCommentLike);
             comment.updateLike(true);
-            commentLike.setEnable();
+            newCommentLike.setEnable();
 
         }
         else{
-            CommentLike commentLike = commentLikeRepository.findByCommentAndUser(comment, userDetails.getUser());
-            comment.updateLike(false);
-            commentLike.setEnable();
-
+            if(!commentLike.isEnable()){
+                comment.updateLike(true);
+                commentLike.setEnable();
+            }
+            else {
+                comment.updateLike(false);
+                commentLike.setEnable();
+            }
         }
     }
 
