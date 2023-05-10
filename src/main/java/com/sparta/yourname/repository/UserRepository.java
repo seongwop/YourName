@@ -2,12 +2,8 @@ package com.sparta.yourname.repository;
 
 
 import com.sparta.yourname.entity.User;
-
-
 import jakarta.persistence.Table;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-
 
 import java.util.Optional;
 

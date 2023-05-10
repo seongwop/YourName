@@ -3,6 +3,7 @@ package com.sparta.yourname.service;
 import com.sparta.yourname.dto.BoardRequestDto;
 import com.sparta.yourname.dto.BoardResponseDto;
 import com.sparta.yourname.entity.Board;
+import com.sparta.yourname.exception.CustomError;
 import com.sparta.yourname.repository.BoardRepository;
 import com.sparta.yourname.repository.UserRepository;
 import com.sparta.yourname.security.UserDetailsImpl;
@@ -37,7 +38,7 @@ public class BoardService {
     public String deleteBoard(Long id, UserDetailsImpl userDetails) {
 
         Board board = boardRepository.findByIdAndUser(id, userDetails.getUser()).orElseThrow(
-                () -> new NullPointerException(CustomErrorMessage.BOARD_NOT_EXIST_OR_WRONG_USER.getMessage())
+                () -> new CustomError(CustomErrorMessage.BOARD_NOT_EXIST_OR_WRONG_USER)
         );
 
         boardRepository.delete(board);

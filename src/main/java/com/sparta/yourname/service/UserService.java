@@ -5,6 +5,7 @@ import com.sparta.yourname.dto.TokenDto;
 import com.sparta.yourname.dto.UserRequestDto;
 import com.sparta.yourname.entity.RefreshToken;
 import com.sparta.yourname.entity.User;
+import com.sparta.yourname.exception.CustomError;
 import com.sparta.yourname.jwt.JwtUtil;
 import com.sparta.yourname.repository.RefreshTokenRepository;
 import com.sparta.yourname.repository.UserRepository;
@@ -15,9 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import static com.sparta.yourname.util.ValidateUtil.isValidPassword;
@@ -36,11 +35,11 @@ public class UserService {
     @Transactional
     public CommonResponseDto<?> login(UserRequestDto.login requestDto, HttpServletResponse response) {
         User user = userRepository.findByUserId(requestDto.getUserId()).orElseThrow(
-                () -> new IllegalArgumentException(CustomErrorMessage.ID_NOT_EXIST.getMessage())
+                () -> new CustomError(CustomErrorMessage.ID_NOT_EXIST)
         );
 
         if (!passwordEncoder.matches(requestDto.getPassword(),user.getPassword())) {
-            throw new RuntimeException(CustomErrorMessage.WRONG_PASSWORD.getMessage()); // 디테일한 예외 클래스 필요
+            throw new CustomError(CustomErrorMessage.WRONG_PASSWORD); // 디테일한 예외 클래스 필요
         }
 
         TokenDto tokenDto = jwtUtil.createAllToken(user.getUserId());
@@ -79,16 +78,20 @@ public class UserService {
         password = passwordEncoder.encode(password);
         userRequestDto.setPassword(password);
         // 회원 중복 확인
-        try {
-            Optional<User> found = userRepository.findByUserId(userId);
-            if (found.isPresent()) {
-                throw new IllegalArgumentException(CustomErrorMessage.USER_EXISTS.getMessage());
-            }
-        } catch (Exception e) {
-            // 예외 처리
-            e.printStackTrace();
-            throw new RuntimeException(CustomErrorMessage.SEARCHING_USER_ERROR.getMessage());
+        Optional<User> found = userRepository.findByUserId(userId);
+        if (found.isPresent()) {
+            throw new CustomError(CustomErrorMessage.USER_EXISTS);
         }
+//        try {
+//              Optional<User> found = userRepository.findByUserId(userId);
+//               if (found.isPresent()) {
+//                throw new CustomError(CustomErrorMessage.USER_EXISTS);
+//                }
+//        } catch (Exception e) {
+//            // 예외 처리
+//            e.printStackTrace();
+//            throw new CustomError(CustomErrorMessage.SEARCHING_USER_ERROR);
+//        }
 
         User user = new User(userRequestDto);
 
@@ -110,7 +113,7 @@ public class UserService {
     public CommonResponseDto<?> delete(UserRequestDto.info userRequestDto) {
 
         userRepository.findByUserId(userRequestDto.getUserId()).orElseThrow(
-                () -> new IllegalArgumentException(CustomErrorMessage.USER_NOT_EXIST.getMessage())
+                () -> new CustomError(CustomErrorMessage.USER_NOT_EXIST)
         );
         User user = userRepository.findByUserId(userRequestDto.getUserId()).orElseGet(User::new);
 

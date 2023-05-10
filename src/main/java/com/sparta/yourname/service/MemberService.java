@@ -3,9 +3,9 @@ package com.sparta.yourname.service;
 import com.sparta.yourname.dto.CommentResponseDto;
 import com.sparta.yourname.dto.MemberResponseDto;
 import com.sparta.yourname.dto.MemberSummaryDto;
-import com.sparta.yourname.dto.UserResponseDto;
 import com.sparta.yourname.entity.Comment;
 import com.sparta.yourname.entity.User;
+import com.sparta.yourname.exception.CustomError;
 import com.sparta.yourname.repository.CommentRepository;
 import com.sparta.yourname.repository.UserRepository;
 import com.sparta.yourname.security.UserDetailsImpl;
@@ -38,7 +38,7 @@ public class MemberService {
     }
 
     public MemberResponseDto getMemberDetails(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.USER_NOT_EXIST.getMessage()));
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomError(CustomErrorMessage.USER_NOT_EXIST));
         List<Comment> comments = commentRepository.findAllByUserId(userId);
         List<CommentResponseDto> commentResponseDto = comments.stream()
                 .map(CommentResponseDto::new)
@@ -50,7 +50,7 @@ public class MemberService {
 
     public Comment createComment(Long userId, String content, Authentication authentication) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.USER_NOT_EXIST.getMessage()));
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomError(CustomErrorMessage.USER_NOT_EXIST));
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String currentUser = userDetails.getUsername();
@@ -80,11 +80,11 @@ public class MemberService {
         String currentUserId = userDetails.getUsername();
 
         //
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.COMMENT_NOT_EXIST.getMessage()));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomError(CustomErrorMessage.COMMENT_NOT_EXIST));
         String commentAuthorId = comment.getUsername();
 
         if (!currentUserId.equals(commentAuthorId)) {
-            throw new IllegalStateException(CustomErrorMessage.WRONG_USER.getMessage());
+            throw new CustomError(CustomErrorMessage.WRONG_USER);
         }
 
         commentRepository.delete(comment);
