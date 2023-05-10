@@ -4,25 +4,32 @@ import com.sparta.yourname.dto.CommentResponseDto;
 import com.sparta.yourname.dto.MemberResponseDto;
 import com.sparta.yourname.dto.MemberSummaryDto;
 import com.sparta.yourname.entity.Comment;
+import com.sparta.yourname.entity.CommentLike;
 import com.sparta.yourname.entity.User;
 import com.sparta.yourname.exception.CustomError;
+import com.sparta.yourname.repository.CommentLikeRepository;
 import com.sparta.yourname.repository.CommentRepository;
 import com.sparta.yourname.repository.UserRepository;
 import com.sparta.yourname.security.UserDetailsImpl;
 import com.sparta.yourname.util.CustomErrorMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberService {
 
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final CommentLikeRepository commentLikeRepository;
 
     public List<MemberSummaryDto> getAllMembers() {
         List<User> users = userRepository.findAll();
@@ -89,6 +96,26 @@ public class MemberService {
         }
 
         commentRepository.delete(comment);
+    }
+
+    public void likeComment(Long commentId, Authentication authentication) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new CustomError(CustomErrorMessage.COMMENT_NOT_EXIST)
+        );
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        if(commentLikeRepository.findByCommentAndUser(comment, userDetails.getUser()) == null){
+            CommentLike commentLike = new CommentLike(userDetails.getUser(), comment);
+            commentLikeRepository.saveAndFlush(commentLike);
+            comment.updateLike(true);
+            commentLike.setEnable();
+
+        }
+        else{
+            CommentLike commentLike = commentLikeRepository.findByCommentAndUser(comment, userDetails.getUser());
+            comment.updateLike(false);
+            commentLike.setEnable();
+
+        }
     }
 
 }

@@ -54,4 +54,10 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/{userId}/comments/{commentId}/like")
+    public ResponseEntity<CommentResponseDto> likeComment(@PathVariable Long commentId, Authentication authentication) {
+        memberService.likeComment(commentId,authentication);
+        return ResponseEntity.noContent().build();
+    }
+
 }
