@@ -8,6 +8,7 @@ import com.sparta.yourname.entity.User;
 import com.sparta.yourname.jwt.JwtUtil;
 import com.sparta.yourname.repository.RefreshTokenRepository;
 import com.sparta.yourname.repository.UserRepository;
+import com.sparta.yourname.util.CustomErrorMessage;
 import com.sparta.yourname.util.S3Uploader;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,11 @@ public class UserService {
     @Transactional
     public CommonResponseDto<?> login(UserRequestDto.login requestDto, HttpServletResponse response) {
         User user = userRepository.findByUserId(requestDto.getUserId()).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+                () -> new IllegalArgumentException(CustomErrorMessage.ID_NOT_EXIST.getMessage())
         );
 
         if (!passwordEncoder.matches(requestDto.getPassword(),user.getPassword())) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다."); // 디테일한 예외 클래스 필요
+            throw new RuntimeException(CustomErrorMessage.WRONG_PASSWORD.getMessage()); // 디테일한 예외 클래스 필요
         }
 
         TokenDto tokenDto = jwtUtil.createAllToken(user.getUserId());
@@ -81,12 +82,12 @@ public class UserService {
         try {
             Optional<User> found = userRepository.findByUserId(userId);
             if (found.isPresent()) {
-                throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+                throw new IllegalArgumentException(CustomErrorMessage.USER_EXISTS.getMessage());
             }
         } catch (Exception e) {
             // 예외 처리
             e.printStackTrace();
-            throw new RuntimeException("사용자 조회 중 오류가 발생했습니다.");
+            throw new RuntimeException(CustomErrorMessage.SEARCHING_USER_ERROR.getMessage());
         }
 
         User user = new User(userRequestDto);
@@ -109,7 +110,7 @@ public class UserService {
     public CommonResponseDto<?> delete(UserRequestDto.info userRequestDto) {
 
         userRepository.findByUserId(userRequestDto.getUserId()).orElseThrow(
-                () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
+                () -> new IllegalArgumentException(CustomErrorMessage.USER_NOT_EXIST.getMessage())
         );
         User user = userRepository.findByUserId(userRequestDto.getUserId()).orElseGet(User::new);
 

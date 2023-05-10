@@ -64,7 +64,7 @@ public class User {
     }
 
 
-    public void Update(UserRequestDto.info requestDto) {
+    public void update(UserRequestDto.info requestDto) {
         if (requestDto.getUsername() != null) {
             this.username = requestDto.getUsername();
         }
@@ -110,12 +110,6 @@ public class User {
 //        this.blogurl = requests.getBlogUrl();
 //
 //    }
-
-
-    
-    
-
-
 
 
     public UserResponseDto toUserResponseDto() {

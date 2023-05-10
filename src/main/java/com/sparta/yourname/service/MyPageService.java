@@ -7,6 +7,7 @@ import com.sparta.yourname.repository.UserRepository;
 import com.sparta.yourname.security.UserDetailsImpl;
 
 
+import com.sparta.yourname.util.CustomErrorMessage;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,7 @@ public class MyPageService {
         Long userId = userDetails.getUser().getId();
 
         User user = userRepository.findById(userId).orElseThrow(
-                ()-> new IllegalArgumentException("사용자를 찾을 수 없습니다")
+                ()-> new IllegalArgumentException(CustomErrorMessage.USER_NOT_EXIST.getMessage())
         );
         return user.toUserResponseDto();
     }
@@ -32,7 +33,7 @@ public class MyPageService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         Long userId = userDetails.getUser().getId();
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
+                .orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.USER_NOT_EXIST.getMessage()));
 
         // 업데이트
 

@@ -9,6 +9,7 @@ import com.sparta.yourname.entity.User;
 import com.sparta.yourname.repository.CommentRepository;
 import com.sparta.yourname.repository.UserRepository;
 import com.sparta.yourname.security.UserDetailsImpl;
+import com.sparta.yourname.util.CustomErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,11 @@ public class MemberService {
                         .specialty(user.getSpecialty())
                         .mbti(user.getMbti())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public MemberResponseDto getMemberDetails(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.USER_NOT_EXIST.getMessage()));
         List<Comment> comments = commentRepository.findAllByUserId(userId);
         List<CommentResponseDto> commentResponseDto = comments.stream()
                 .map(CommentResponseDto::new)
@@ -49,7 +50,7 @@ public class MemberService {
 
     public Comment createComment(Long userId, String content, Authentication authentication) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.USER_NOT_EXIST.getMessage()));
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String currentUser = userDetails.getUsername();
@@ -79,11 +80,11 @@ public class MemberService {
         String currentUserId = userDetails.getUsername();
 
         //
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다"));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException(CustomErrorMessage.COMMENT_NOT_EXIST.getMessage()));
         String commentAuthorId = comment.getUsername();
 
         if (!currentUserId.equals(commentAuthorId)) {
-            throw new IllegalStateException("작성자가 아닙니다");
+            throw new IllegalStateException(CustomErrorMessage.WRONG_USER.getMessage());
         }
 
         commentRepository.delete(comment);
