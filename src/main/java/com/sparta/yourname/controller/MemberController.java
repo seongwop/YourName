@@ -5,6 +5,7 @@ import com.sparta.yourname.dto.CommentResponseDto;
 import com.sparta.yourname.dto.MemberResponseDto;
 import com.sparta.yourname.dto.MemberSummaryDto;
 import com.sparta.yourname.entity.Comment;
+import com.sparta.yourname.security.UserDetailsImpl;
 import com.sparta.yourname.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,9 @@ public class MemberController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<MemberResponseDto> getMemberDetails(@PathVariable Long userId) {
-        MemberResponseDto memberDetails = memberService.getMemberDetails(userId);
+    public ResponseEntity<MemberResponseDto> getMemberDetails(@PathVariable Long userId, Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        MemberResponseDto memberDetails = memberService.getMemberDetails(userId, userDetails.getUser());
         return ResponseEntity.ok(memberDetails);
     }
 

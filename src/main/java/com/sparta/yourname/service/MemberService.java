@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,16 +46,29 @@ public class MemberService {
                 .toList();
     }
 
-    public MemberResponseDto getMemberDetails(Long userId) {
+    public MemberResponseDto getMemberDetails(Long userId, User myself) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CustomError(CustomErrorMessage.USER_NOT_EXIST));
         List<Comment> comments = commentRepository.findAllByUserId(userId);
-        List<CommentResponseDto> commentResponseDto = comments.stream()
-                .map(CommentResponseDto::new)
-                .collect(Collectors.toList());
 
-        return new MemberResponseDto(user, commentResponseDto);
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+
+        for (Comment comment : comments) {
+            CommentResponseDto commentResponseDto = new CommentResponseDto(comment,false);
+            for (CommentLike commentLike : comment.getCommentLikeList()) {
+                if (myself.getUserId().equals(commentLike.getUser().getUserId())) {
+                    commentResponseDto.setEnabled(commentLike.isEnable());
+                    break;
+                }
+            }
+            commentResponseDtoList.add(commentResponseDto);
+        }
+
+//        List<CommentResponseDto> commentResponseDtoList = comments.stream()
+//                .map(CommentResponseDto::new)
+//                .collect(Collectors.toList());
+
+        return new MemberResponseDto(user, commentResponseDtoList);
     }
-
 
     public Comment createComment(Long userId, String content, Authentication authentication) {
 

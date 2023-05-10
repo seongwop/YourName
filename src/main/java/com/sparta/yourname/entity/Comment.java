@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.util.List;
+
 @Getter
 @Entity
 @DynamicInsert
@@ -29,6 +31,8 @@ public class Comment {
     @ColumnDefault("0")
     private int likeCount;
 
+    @OneToMany(mappedBy = "comment")
+    private List<CommentLike> commentLikeList;
 
     public Comment(User user, String content, String username){
         this.user = user;
