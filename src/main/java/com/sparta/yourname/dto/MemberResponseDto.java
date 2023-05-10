@@ -22,6 +22,7 @@ public class MemberResponseDto {
                 .mbti(user.getMbti())
                 .githubUrl(user.getGithuburl())
                 .blogUrl(user.getBlogurl())
+                .imageUrl(user.getImageUrl())
                 .build();
         this.comments = comments;
     }

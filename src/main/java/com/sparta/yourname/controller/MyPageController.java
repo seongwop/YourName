@@ -31,7 +31,4 @@ public class MyPageController {
         UserResponseDto updatedUser = myPageService.updateInformation(updatedInfo, authentication);
         return ResponseEntity.ok(updatedUser);
     }
-
-
-
 }

@@ -29,5 +29,4 @@ public class BoardController {
     public CommonResponseDto<?> deleteBoard(@PathVariable Long id,  @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return new CommonResponseDto<>(boardService.deleteBoard(id, userDetails));
     }
-
 }

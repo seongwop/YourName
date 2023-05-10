@@ -9,12 +9,14 @@ public class MemberSummaryDto {
     private String username;
     private String specialty;
     private String mbti;
+    private String imageUrl;
 
     @Builder
-    public MemberSummaryDto(Long id, String username, String specialty, String mbti) {
+    public MemberSummaryDto(Long id, String username, String specialty, String mbti, String imageUrl) {
         this.id = id;
         this.username = username;
         this.specialty = specialty;
         this.mbti = mbti;
+        this.imageUrl = imageUrl;
     }
 }

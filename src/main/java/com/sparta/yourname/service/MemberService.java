@@ -32,6 +32,7 @@ public class MemberService {
                         .username(user.getUsername())
                         .specialty(user.getSpecialty())
                         .mbti(user.getMbti())
+                        .imageUrl(user.getImageUrl())
                         .build())
                 .collect(Collectors.toList());
     }

@@ -12,7 +12,6 @@ public class BoardResponseDto {
     private String content;
     private String author;
 
-
     public BoardResponseDto(Board board) {
         this.title = board.getTitle();
         this.content = board.getContent();
