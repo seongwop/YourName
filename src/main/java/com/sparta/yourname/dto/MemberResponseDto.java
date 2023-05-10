@@ -7,8 +7,8 @@ import java.util.List;
 
 @Getter
 public class MemberResponseDto {
-    private final UserResponseDto user;
-    private final List<CommentResponseDto> comments;
+    private UserResponseDto user;
+    private List<CommentResponseDto> comments;
 
     public MemberResponseDto(User user, List<CommentResponseDto> comments) {
         this.user = UserResponseDto.builder()
