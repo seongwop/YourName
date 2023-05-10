@@ -3,9 +3,11 @@ package com.sparta.yourname.service;
 import com.sparta.yourname.dto.BoardRequestDto;
 import com.sparta.yourname.dto.BoardResponseDto;
 import com.sparta.yourname.entity.Board;
+import com.sparta.yourname.exception.CustomError;
 import com.sparta.yourname.repository.BoardRepository;
 import com.sparta.yourname.repository.UserRepository;
 import com.sparta.yourname.security.UserDetailsImpl;
+import com.sparta.yourname.util.CustomErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +38,7 @@ public class BoardService {
     public String deleteBoard(Long id, UserDetailsImpl userDetails) {
 
         Board board = boardRepository.findByIdAndUser(id, userDetails.getUser()).orElseThrow(
-                () -> new NullPointerException("게시글이 존재하지 않거나 작성자가 아닙니다.")
+                () -> new CustomError(CustomErrorMessage.BOARD_NOT_EXIST_OR_WRONG_USER)
         );
 
         boardRepository.delete(board);

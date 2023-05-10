@@ -7,14 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import java.util.List;
 
 
 
-@Getter@Setter
+@Getter
+@Setter
 @NoArgsConstructor
-
 @Entity(name = "users")
 public class User {
     @Id
@@ -35,16 +34,16 @@ public class User {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String specialty;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String mbti;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String githuburl;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String blogurl;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -61,7 +60,8 @@ public class User {
         this.blogurl = requestDto.getBlogurl();
     }
 
-    public void Update(UserRequestDto.info requestDto) {
+    public void update(UserRequestDto.info requestDto) {
+
         if (requestDto.getUsername() != null) {
             this.username = requestDto.getUsername();
         }

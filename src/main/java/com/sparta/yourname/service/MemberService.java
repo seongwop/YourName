@@ -3,12 +3,13 @@ package com.sparta.yourname.service;
 import com.sparta.yourname.dto.CommentResponseDto;
 import com.sparta.yourname.dto.MemberResponseDto;
 import com.sparta.yourname.dto.MemberSummaryDto;
-import com.sparta.yourname.dto.UserResponseDto;
 import com.sparta.yourname.entity.Comment;
 import com.sparta.yourname.entity.User;
+import com.sparta.yourname.exception.CustomError;
 import com.sparta.yourname.repository.CommentRepository;
 import com.sparta.yourname.repository.UserRepository;
 import com.sparta.yourname.security.UserDetailsImpl;
+import com.sparta.yourname.util.CustomErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -34,11 +35,11 @@ public class MemberService {
                         .mbti(user.getMbti())
                         .imageUrl(user.getImageUrl())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public MemberResponseDto getMemberDetails(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomError(CustomErrorMessage.USER_NOT_EXIST));
         List<Comment> comments = commentRepository.findAllByUserId(userId);
         List<CommentResponseDto> commentResponseDto = comments.stream()
                 .map(CommentResponseDto::new)
@@ -50,7 +51,7 @@ public class MemberService {
 
     public Comment createComment(Long userId, String content, Authentication authentication) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomError(CustomErrorMessage.USER_NOT_EXIST));
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String currentUser = userDetails.getUsername();
@@ -80,11 +81,11 @@ public class MemberService {
         String currentUserId = userDetails.getUsername();
 
         //
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다"));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomError(CustomErrorMessage.COMMENT_NOT_EXIST));
         String commentAuthorId = comment.getUsername();
 
         if (!currentUserId.equals(commentAuthorId)) {
-            throw new IllegalStateException("작성자가 아닙니다");
+            throw new CustomError(CustomErrorMessage.WRONG_USER);
         }
 
         commentRepository.delete(comment);

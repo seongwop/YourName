@@ -1,11 +1,9 @@
 package com.sparta.yourname.dto;
 
-import com.sparta.yourname.entity.Comment;
 import com.sparta.yourname.entity.User;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class MemberResponseDto {
