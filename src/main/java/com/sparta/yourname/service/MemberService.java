@@ -13,15 +13,12 @@ import com.sparta.yourname.repository.UserRepository;
 import com.sparta.yourname.security.UserDetailsImpl;
 import com.sparta.yourname.util.CustomErrorMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -123,7 +120,7 @@ public class MemberService {
             commentLikeRepository.saveAndFlush(newCommentLike);
             comment.updateLike(true);
             newCommentLike.setEnable();
-
+            comment.addCommentLike(newCommentLike);
         }
         else{
             if(!commentLike.isEnable()){

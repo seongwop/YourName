@@ -31,7 +31,7 @@ public class Comment {
     @ColumnDefault("0")
     private int likeCount;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
     private List<CommentLike> commentLikeList;
 
     public Comment(User user, String content, String username){
@@ -46,6 +46,10 @@ public class Comment {
 
     public void updateLike (Boolean likeOrDislike){
         this.likeCount = Boolean.TRUE.equals(likeOrDislike) ? this.likeCount + 1 : this.likeCount - 1;
+    }
+
+    public void addCommentLike (CommentLike commentLike){
+        this.commentLikeList.add(commentLike);
     }
 
 
