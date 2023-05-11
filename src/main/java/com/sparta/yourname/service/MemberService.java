@@ -50,7 +50,7 @@ public class MemberService {
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
         for (Comment comment : comments) {
-            CommentResponseDto commentResponseDto = new CommentResponseDto(comment,false);
+            CommentResponseDto commentResponseDto = new CommentResponseDto(comment,false, comment.getAuthor_imageUrl());
             for (CommentLike commentLike : comment.getCommentLikeList()) {
                 if (myself.getUserId().equals(commentLike.getUser().getUserId())) {
                     commentResponseDto.setEnabled(commentLike.isEnable());
@@ -73,8 +73,10 @@ public class MemberService {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String currentUser = userDetails.getUsername();
+        String author_imageUrl = userDetails.getUser().getImageUrl();
 
-        Comment comment = new Comment(user, content, currentUser);
+
+        Comment comment = new Comment(user, content, currentUser, author_imageUrl);
         return commentRepository.save(comment);
     }
 

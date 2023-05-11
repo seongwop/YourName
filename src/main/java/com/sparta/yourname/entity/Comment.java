@@ -27,6 +27,8 @@ public class Comment {
     @Column(nullable = false)
     private String username;
 
+    private String author_imageUrl;
+
     @Column(nullable = false)
     @ColumnDefault("0")
     private int likeCount;
@@ -34,10 +36,11 @@ public class Comment {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
     private List<CommentLike> commentLikeList;
 
-    public Comment(User user, String content, String username){
+    public Comment(User user, String content, String username, String author_imageUrl){
         this.user = user;
         this.content = content;
         this.username = username;
+        this.author_imageUrl = author_imageUrl;
     }
 
     public void updateContent(String content) {
